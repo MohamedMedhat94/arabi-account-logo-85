@@ -1,0 +1,411 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+
+    --primary: 60 100% 57%;
+    --primary-foreground: 0 0% 0%;
+
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 0%;
+
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
+
+    --accent: 60 100% 57%;
+    --accent-foreground: 0 0% 0%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 215 100% 46%;
+
+    --radius: 0.5rem;
+
+    /* Invoice specific colors */
+    --invoice-header: 215 100% 46%;
+    --invoice-header-foreground: 0 0% 98%;
+    --invoice-total: 43 96% 56%;
+    --invoice-total-foreground: 222.2 47.4% 11.2%;
+    --invoice-row-even: 210 40% 98%;
+    --invoice-row-odd: 0 0% 100%;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 215 100% 60%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 43 96% 56%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 215 100% 60%;
+
+    /* Invoice specific colors - dark mode */
+    --invoice-header: 215 100% 60%;
+    --invoice-header-foreground: 222.2 47.4% 11.2%;
+    --invoice-total: 43 96% 56%;
+    --invoice-total-foreground: 222.2 47.4% 11.2%;
+    --invoice-row-even: 217.2 32.6% 20%;
+    --invoice-row-odd: 222.2 84% 4.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-cairo;
+  }
+}
+
+/* Print styles for PDF generation - Enhanced for A4 layout */
+@media print {
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-size: 11pt;
+    line-height: 1.3;
+    color: #000 !important;
+    background: white !important;
+    margin: 0;
+    padding: 0;
+  }
+
+  .invoice-container {
+    max-width: none !important;
+    width: 210mm !important;
+    min-height: 297mm !important;
+    margin: 0 !important;
+    padding: 15mm !important;
+    background: white !important;
+    box-shadow: none !important;
+  }
+
+  .invoice-professional {
+    max-width: none !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Hide action buttons and controls */
+  .no-print {
+    display: none !important;
+  }
+
+  /* Header styling for print */
+  .invoice-header {
+    border: 2px solid #000 !important;
+    background: #f8f9fa !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    margin-bottom: 8mm !important;
+    padding: 5mm !important;
+  }
+
+  /* Table styling optimized for A4 */
+  .invoice-items-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    border: 2px solid #000 !important;
+    margin: 5mm 0 !important;
+    font-size: 10pt !important;
+  }
+
+  .invoice-items-table th,
+  .invoice-items-table td {
+    border: 1px solid #000 !important;
+    padding: 6px 4px !important;
+    text-align: left !important;
+    vertical-align: top !important;
+    line-height: 1.2 !important;
+  }
+
+  .invoice-items-table th {
+    background: #e9ecef !important;
+    font-weight: bold !important;
+    font-size: 9pt !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .invoice-items-table tbody tr:nth-child(even) {
+    background: #f8f9fa !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Totals section for print */
+  .invoice-totals-card {
+    border: 2px solid #000 !important;
+    background: #f1f3f4 !important;
+    margin: 5mm 0 !important;
+    padding: 3mm !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Signature section for print */
+  .invoice-signature-box {
+    border: 1px solid #000 !important;
+    background: white !important;
+    margin: 5mm 0 !important;
+    padding: 5mm !important;
+    min-height: 20mm !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Footer for print */
+  .invoice-footer {
+    border-top: 2px solid #000 !important;
+    background: #f8f9fa !important;
+    margin-top: 5mm !important;
+    padding: 3mm !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Text sizing adjustments */
+  h1 { font-size: 16pt !important; }
+  h2 { font-size: 14pt !important; }
+  h3 { font-size: 12pt !important; }
+  .text-sm { font-size: 9pt !important; }
+  .text-xs { font-size: 8pt !important; }
+
+  /* Logo adjustments */
+  .invoice-logo-section img {
+    max-height: 15mm !important;
+    max-width: 15mm !important;
+  }
+
+  /* QR Code adjustments */
+  .qr-code {
+    width: 15mm !important;
+    height: 15mm !important;
+  }
+
+  /* Page break controls */
+  .print-break {
+    page-break-before: always;
+  }
+
+  .avoid-break {
+    page-break-inside: avoid;
+  }
+}
+
+/* Enhanced invoice styles */
+.invoice-container {
+  background: white;
+  min-height: 100vh;
+}
+
+.invoice-professional {
+  font-family: 'Cairo', Arial, sans-serif;
+  max-width: 210mm;
+  margin: 0 auto;
+  background: white;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+.invoice-logo-section {
+  background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-foreground)));
+  color: white;
+  padding: 2rem;
+  border-radius: 12px 12px 0 0;
+}
+
+.invoice-items-table {
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid hsl(var(--border));
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.invoice-items-table th {
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  padding: 12px;
+  font-weight: 600;
+  text-align: left;
+  border: none;
+}
+
+.invoice-items-table td {
+  padding: 12px;
+  border-bottom: 1px solid hsl(var(--border));
+  vertical-align: top;
+}
+
+.invoice-items-table tr:last-child td {
+  border-bottom: none;
+}
+
+.invoice-totals-card {
+  background: hsl(var(--accent));
+  border: 2px solid hsl(var(--primary));
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.invoice-signature-box {
+  border: 2px solid hsl(var(--border));
+  border-radius: 8px;
+  padding: 1.5rem;
+  background: hsl(var(--card));
+}
+
+.invoice-footer {
+  background: hsl(var(--muted));
+  padding: 1.5rem;
+  border-radius: 0 0 12px 12px;
+  text-align: center;
+}
+
+/* Dropdown styling - Ensure proper background and z-index */
+[data-radix-select-content] {
+  background: hsl(var(--background)) !important;
+  border: 1px solid hsl(var(--border)) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 38px -10px rgba(22, 23, 24, 0.35), 0 10px 20px -15px rgba(22, 23, 24, 0.2) !important;
+  z-index: 100 !important;
+}
+
+[data-radix-select-item] {
+  background: hsl(var(--background)) !important;
+  color: hsl(var(--foreground)) !important;
+}
+
+[data-radix-select-item]:hover,
+[data-radix-select-item][data-highlighted] {
+  background: hsl(var(--accent)) !important;
+  color: hsl(var(--accent-foreground)) !important;
+}
+
+/* React Select dropdown styling */
+.react-select-container .react-select__control {
+  background: hsl(var(--background)) !important;
+  border: 2px solid hsl(var(--border)) !important;
+  border-radius: 6px !important;
+}
+
+.react-select-container .react-select__menu {
+  background: hsl(var(--background)) !important;
+  border: 1px solid hsl(var(--border)) !important;
+  border-radius: 6px !important;
+  box-shadow: 0 10px 38px -10px rgba(22, 23, 24, 0.35) !important;
+  z-index: 100 !important;
+}
+
+.react-select-container .react-select__option {
+  background: hsl(var(--background)) !important;
+  color: hsl(var(--foreground)) !important;
+}
+
+.react-select-container .react-select__option:hover,
+.react-select-container .react-select__option--is-focused {
+  background: hsl(var(--accent)) !important;
+  color: hsl(var(--accent-foreground)) !important;
+}
+
+/* Product combobox dropdown styling - Critical z-index fix */
+.product-combobox-container {
+  position: relative;
+  z-index: 100; /* Higher base z-index */
+  isolation: isolate; /* Create stacking context */
+}
+
+.product-combobox-dropdown {
+  position: fixed !important; /* Use fixed instead of absolute to escape parent constraints */
+  z-index: 9999 !important;
+  background: hsl(var(--background)) !important;
+  border: 2px solid hsl(var(--border)) !important;
+  border-radius: 6px !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+  max-height: 240px !important;
+  overflow-y: auto !important;
+  pointer-events: auto !important;
+  transform: translateZ(0) !important; /* Force hardware acceleration */
+  min-width: 300px !important;
+}
+
+/* Ensure dropdown appears above table cells and other elements */
+.invoice-items-table {
+  position: relative;
+  z-index: 1; /* Lower z-index for table */
+}
+
+.invoice-items-table td {
+  overflow: visible !important; /* Ensure cells don't clip dropdown */
+}
+
+/* Override any table cell overflow issues */
+.product-combobox-container .product-combobox-dropdown {
+  contain: none !important; /* Prevent containment issues */
+}
