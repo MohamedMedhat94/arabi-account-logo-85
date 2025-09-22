@@ -695,6 +695,9 @@ const Invoice = () => {
           <div className="space-y-6">
             {/* Totals Summary */}
             <Card className="shadow-lg border-0 bg-gradient-to-br from-primary/5 to-primary/10">
+              <CardHeader className="pb-3">
+                <h3 className="text-lg font-semibold text-primary">TOTALS SUMMARY</h3>
+              </CardHeader>
               <CardContent className="space-y-3 p-6">
                 <div className="space-y-3">
                   <div className="flex justify-between items-center py-2 px-3 bg-background rounded-md border">
@@ -721,6 +724,66 @@ const Invoice = () => {
                 </div>
               </CardContent>
             </Card>
+
+            {/* Payment Terms & Conditions - Only for Proforma Invoice */}
+            {invoiceType === 'proforma' && (
+              <Card className="shadow-lg border-0 bg-gradient-to-br from-secondary/5 to-secondary/10">
+                <CardHeader className="pb-3">
+                  <h3 className="text-lg font-semibold text-primary">PAYMENT TERMS & CONDITIONS</h3>
+                </CardHeader>
+                <CardContent className="p-6 space-y-4">
+                  <div className="space-y-3 text-sm">
+                    <div className="flex justify-between py-2 px-3 bg-background rounded-md border">
+                      <span className="font-medium">Payment Terms:</span>
+                      <span className="font-semibold">100% Advance</span>
+                    </div>
+                    
+                    {paymentTermsData.priceValidity && (
+                      <div className="flex justify-between py-2 px-3 bg-background rounded-md border">
+                        <span className="font-medium">Price Validity:</span>
+                        <span className="font-semibold">{paymentTermsData.priceValidity}</span>
+                      </div>
+                    )}
+                    
+                    <div className="flex justify-between py-2 px-3 bg-background rounded-md border">
+                      <span className="font-medium">Port of Loading:</span>
+                      <span className="font-semibold">{paymentTermsData.portOfLoading}</span>
+                    </div>
+                    
+                    {paymentTermsData.portOfDestination && (
+                      <div className="flex justify-between py-2 px-3 bg-background rounded-md border">
+                        <span className="font-medium">Port of Destination:</span>
+                        <span className="font-semibold">{paymentTermsData.portOfDestination}</span>
+                      </div>
+                    )}
+                    
+                    {paymentTermsData.timeOfShipment && (
+                      <div className="flex justify-between py-2 px-3 bg-background rounded-md border">
+                        <span className="font-medium">Time of Shipment:</span>
+                        <span className="font-semibold">{paymentTermsData.timeOfShipment}</span>
+                      </div>
+                    )}
+                    
+                    <Separator className="my-3" />
+                    
+                    <div className="space-y-2 bg-background rounded-md border p-3">
+                      <div className="font-medium text-primary mb-2">Banking Details:</div>
+                      <div className="grid grid-cols-2 gap-2 text-xs">
+                        <div><span className="font-medium">Bank:</span> {paymentTermsData.bankName}</div>
+                        <div><span className="font-medium">Account:</span> {paymentTermsData.accountNo}</div>
+                      </div>
+                    </div>
+                    
+                    {paymentTermsData.remarks && (
+                      <div className="bg-background rounded-md border p-3">
+                        <div className="font-medium text-primary mb-1">Remarks:</div>
+                        <div className="text-xs text-muted-foreground">{paymentTermsData.remarks}</div>
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
 
             {/* PDF Generation Button */}
             <Card className="shadow-lg border-0">
