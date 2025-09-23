@@ -76,10 +76,12 @@ const Reports = () => {
               <p className="text-muted-foreground mb-4">
                 عرض تقارير المبيعات والإيرادات الشهرية مع الرسوم البيانية
               </p>
-              <Button className="w-full">
-                <FileText className="w-4 h-4 mr-2" />
-                عرض التقرير / View Report
-              </Button>
+              <Link to="/reports/monthly">
+                <Button className="w-full">
+                  <FileText className="w-4 h-4 mr-2" />
+                  عرض التقرير / View Report
+                </Button>
+              </Link>
             </CardContent>
           </Card>
 
@@ -96,10 +98,12 @@ const Reports = () => {
               <p className="text-muted-foreground mb-4">
                 ملخص شامل للأداء المالي السنوي والنمو المحقق
               </p>
-              <Button className="w-full">
-                <TrendingUp className="w-4 h-4 mr-2" />
-                عرض الملخص / View Summary
-              </Button>
+              <Link to="/reports/annual">
+                <Button className="w-full">
+                  <TrendingUp className="w-4 h-4 mr-2" />
+                  عرض الملخص / View Summary
+                </Button>
+              </Link>
             </CardContent>
           </Card>
 
@@ -116,10 +120,12 @@ const Reports = () => {
               <p className="text-muted-foreground mb-4">
                 عرض جميع الفواتير المصدرة مع إمكانية البحث والتصفية
               </p>
-              <Button className="w-full">
-                <FileText className="w-4 h-4 mr-2" />
-                عرض السجل / View History
-              </Button>
+              <Link to="/reports/invoices">
+                <Button className="w-full">
+                  <FileText className="w-4 h-4 mr-2" />
+                  عرض السجل / View History
+                </Button>
+              </Link>
             </CardContent>
           </Card>
 
@@ -136,10 +142,12 @@ const Reports = () => {
               <p className="text-muted-foreground mb-4">
                 تحليل مفصل لبيانات العملاء والمبيعات لكل عميل
               </p>
-              <Button className="w-full">
-                <PieChart className="w-4 h-4 mr-2" />
-                عرض التحليل / View Analysis
-              </Button>
+              <Link to="/reports/clients">
+                <Button className="w-full">
+                  <PieChart className="w-4 h-4 mr-2" />
+                  عرض التحليل / View Analysis
+                </Button>
+              </Link>
             </CardContent>
           </Card>
 
@@ -156,10 +164,12 @@ const Reports = () => {
               <p className="text-muted-foreground mb-4">
                 تقارير مفصلة للضرائب المحصلة والمستحقة
               </p>
-              <Button className="w-full">
-                <BarChart3 className="w-4 h-4 mr-2" />
-                عرض التقرير / View Report
-              </Button>
+              <Link to="/reports/taxes">
+                <Button className="w-full">
+                  <BarChart3 className="w-4 h-4 mr-2" />
+                  عرض التقرير / View Report
+                </Button>
+              </Link>
             </CardContent>
           </Card>
 
@@ -200,10 +210,12 @@ const Reports = () => {
               <p className="text-muted-foreground mb-4">
                 تصدير البيانات بصيغ مختلفة (PDF, Excel, CSV)
               </p>
-              <Button className="w-full">
-                <Download className="w-4 h-4 mr-2" />
-                تصدير / Export
-              </Button>
+              <Link to="/reports/export">
+                <Button className="w-full">
+                  <Download className="w-4 h-4 mr-2" />
+                  تصدير / Export
+                </Button>
+              </Link>
             </CardContent>
           </Card>
         </div>
@@ -218,10 +230,12 @@ const Reports = () => {
                 إنشاء فاتورة جديدة / Create Invoice
               </Button>
             </Link>
-            <Button variant="outline" size="lg">
-              <Download className="mr-2 h-5 w-5" />
-              تصدير كل البيانات / Export All Data
-            </Button>
+            <Link to="/reports/export">
+              <Button variant="outline" size="lg">
+                <Download className="mr-2 h-5 w-5" />
+                تصدير كل البيانات / Export All Data
+              </Button>
+            </Link>
           </div>
         </div>
 
