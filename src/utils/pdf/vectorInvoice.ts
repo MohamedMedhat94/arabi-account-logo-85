@@ -149,7 +149,12 @@ export async function generateInvoicePDFVector(data: VectorInvoiceData) {
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(10);
   doc.text('Professional Engineering Solutions', pageWidth / 2, 28, { align: 'center' });
-
+  
+  // Contact Information
+  doc.setFontSize(9);
+  doc.text('41 Al-Mawardi Street, Al-Qasr Al-Aini, Cairo, Egypt', pageWidth / 2, 34, { align: 'center' });
+  doc.text('Tel: +20 11 47304880 | Fax: +2027932115', pageWidth / 2, 38, { align: 'center' });
+  doc.text('Email: el_hekma2013@yahoo.com', pageWidth / 2, 42, { align: 'center' });
 
   y = 55;
 
