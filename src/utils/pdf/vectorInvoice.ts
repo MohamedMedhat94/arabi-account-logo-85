@@ -167,7 +167,7 @@ export async function generateInvoicePDFVector(data: VectorInvoiceData) {
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(16);
   doc.setTextColor(0, 0, 0);
-  const title = invoiceData.invoiceType === 'commercial' ? 'COMMERCIAL INVOICE' : 'PROFORMA INVOICE';
+  const title = invoiceData.invoiceType === 'commercial' ? 'REQUEST AN INVOICE' : 'PROFORMA INVOICE';
   doc.text(title, pageWidth / 2, y + 11, { align: 'center' });
 
   y += 25;
