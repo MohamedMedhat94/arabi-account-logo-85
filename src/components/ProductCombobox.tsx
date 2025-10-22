@@ -29,24 +29,11 @@ export default function ProductCombobox({
   const [open, setOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
-  // Debug: Log total products count
-  console.log('Total products loaded:', products.length);
-  console.log('Products with "French":', products.filter(p => 
-    p.name.toLowerCase().includes('french') || p.code.toLowerCase().includes('french')
-  ).map(p => ({ code: p.code, name: p.name })));
-
   // Filter products based on search
   const filteredProducts = products.filter(product =>
     product.name.toLowerCase().includes(searchValue.toLowerCase()) ||
     product.code.toLowerCase().includes(searchValue.toLowerCase())
   );
-
-  // Debug: Log search and filtered results
-  console.log('Search value:', searchValue);
-  console.log('Filtered products count:', filteredProducts.length);
-  if (searchValue.toLowerCase().includes('french')) {
-    console.log('French filtered products:', filteredProducts.map(p => ({ code: p.code, name: p.name })));
-  }
 
   const handleSelect = (product: Product) => {
     onChange(product.name);
@@ -82,51 +69,56 @@ export default function ProductCombobox({
         side="bottom"
         sideOffset={2}
       >
-        <Command>
+        <Command shouldFilter={false}>
           <div className="flex items-center border-b px-3">
             <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
-            <CommandInput
-              placeholder="Search products..."
+            <input
+              type="text"
+              placeholder="ابحث عن منتج..."
               value={searchValue}
-              onValueChange={setSearchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
               className="flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
             />
           </div>
-          <CommandList className="max-h-[200px] overflow-y-auto">
-            <CommandEmpty>No products found.</CommandEmpty>
-            <CommandGroup>
-              {filteredProducts.slice(0, 20).map((product) => (
-                <CommandItem
-                  key={product.code}
-                  value={product.code}
-                  onSelect={() => handleSelect(product)}
-                  className="cursor-pointer"
-                >
-                  <div className="flex items-center justify-between w-full">
-                    <div className="flex-1">
-                      <div className="font-semibold text-sm mb-1">
-                        {product.code} - {product.name}
+          <div className="max-h-[300px] overflow-y-auto">
+            {filteredProducts.length === 0 ? (
+              <div className="py-6 text-center text-sm text-muted-foreground">
+                لا توجد منتجات
+              </div>
+            ) : (
+              <div className="p-1">
+                {filteredProducts.slice(0, 50).map((product) => (
+                  <div
+                    key={product.code}
+                    onClick={() => handleSelect(product)}
+                    className="cursor-pointer rounded-sm px-2 py-2 hover:bg-accent hover:text-accent-foreground transition-colors"
+                  >
+                    <div className="flex items-center justify-between w-full">
+                      <div className="flex-1">
+                        <div className="font-semibold text-sm mb-1">
+                          {product.code} - {product.name}
+                        </div>
+                        <div className="text-xs font-medium text-primary">
+                          {currencySymbol}{convertPrice(product.price).toFixed(2)}
+                          {product.price === 0 && (
+                            <span className="text-destructive ml-2">
+                              (Manual entry required)
+                            </span>
+                          )}
+                        </div>
                       </div>
-                      <div className="text-xs font-medium text-primary">
-                        {currencySymbol}{convertPrice(product.price).toFixed(2)}
-                        {product.price === 0 && (
-                          <span className="text-destructive ml-2">
-                            (Manual entry required)
-                          </span>
+                      <Check
+                        className={cn(
+                          "ml-2 h-4 w-4 shrink-0",
+                          value === product.name ? "opacity-100" : "opacity-0"
                         )}
-                      </div>
+                      />
                     </div>
-                    <Check
-                      className={cn(
-                        "ml-2 h-4 w-4",
-                        value === product.name ? "opacity-100" : "opacity-0"
-                      )}
-                    />
                   </div>
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </CommandList>
+                ))}
+              </div>
+            )}
+          </div>
         </Command>
       </PopoverContent>
     </Popover>
