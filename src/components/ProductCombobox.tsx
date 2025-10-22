@@ -41,6 +41,13 @@ export default function ProductCombobox({
     product.code.toLowerCase().includes(searchValue.toLowerCase())
   );
 
+  // Debug: Log search and filtered results
+  console.log('Search value:', searchValue);
+  console.log('Filtered products count:', filteredProducts.length);
+  if (searchValue.toLowerCase().includes('french')) {
+    console.log('French filtered products:', filteredProducts.map(p => ({ code: p.code, name: p.name })));
+  }
+
   const handleSelect = (product: Product) => {
     onChange(product.name);
     onProductSelect(product);
