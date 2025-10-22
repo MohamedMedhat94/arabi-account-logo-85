@@ -67,7 +67,10 @@ let globalProducts: Product[] = [
   { code: "HF119", name: "Plastic palm connector", price: 1.5 },
   { code: "HF120", name: "Pump drawing a heart with a nail, Wisdom Office", price: 10.5 },
   { code: "HF122", name: "Wisdom Suction Regulator Probe Network English", price: 1.5 },
-  { code: "HF83", name: "French suction regulator with key", price: 27 }
+  { code: "HF83", name: "French suction regulator with key", price: 27 },
+  { code: "FOF_02", name: "French Oxygen Flowmeter", price: 590 },
+  { code: "FAF_01", name: "French Air Flowmeter", price: 590 },
+  { code: "FVR_05", name: "French Vacuum Regulatory", price: 1350 }
 ];
 
 // Export the default products and provide functions to manage them
@@ -152,7 +155,10 @@ export const resetToDefaultProducts = () => {
     { code: "HF119", name: "Plastic palm connector", price: 1.5 },
     { code: "HF120", name: "Pump drawing a heart with a nail, Wisdom Office", price: 10.5 },
     { code: "HF122", name: "Wisdom Suction Regulator Probe Network English", price: 1.5 },
-    { code: "HF83", name: "French suction regulator with key", price: 27 }
+    { code: "HF83", name: "French suction regulator with key", price: 27 },
+    { code: "FOF_02", name: "French Oxygen Flowmeter", price: 590 },
+    { code: "FAF_01", name: "French Air Flowmeter", price: 590 },
+    { code: "FVR_05", name: "French Vacuum Regulatory", price: 1350 }
   ];
   
   updateProducts(defaultProducts);
