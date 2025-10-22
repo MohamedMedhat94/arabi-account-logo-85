@@ -29,6 +29,12 @@ export default function ProductCombobox({
   const [open, setOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
+  // Debug: Log total products count
+  console.log('Total products loaded:', products.length);
+  console.log('Products with "French":', products.filter(p => 
+    p.name.toLowerCase().includes('french') || p.code.toLowerCase().includes('french')
+  ).map(p => ({ code: p.code, name: p.name })));
+
   // Filter products based on search
   const filteredProducts = products.filter(product =>
     product.name.toLowerCase().includes(searchValue.toLowerCase()) ||
