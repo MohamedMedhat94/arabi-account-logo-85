@@ -316,64 +316,53 @@ export async function generateInvoicePDFVector(data: VectorInvoiceData) {
   doc.text(`NET TOTAL:`, totalsX + 3, totalsY + 31);
   doc.text(`${invoiceData.currencySymbol}${invoiceData.netTotal.toFixed(2)}`, totalsX + totalsWidth - 3, totalsY + 31, { align: 'right' });
 
-  // SIGNATURE SECTION - Professional table layout
+  // SIGNATURE SECTION - Clean and simple design
   const signatureY = totalsY + 45;
   const signatureWidth = pageWidth - 2 * margin;
-  const signatureHeight = 35;
+  const signatureHeight = 42;
   
-  // Main signature section border
-  doc.setFillColor(248, 248, 248);
-  doc.rect(margin, signatureY, signatureWidth, signatureHeight, 'F');
+  // Main signature section with rounded corners (simulated with border)
+  doc.setFillColor(255, 255, 255);
+  doc.roundedRect(margin, signatureY, signatureWidth, signatureHeight, 2, 2, 'FD');
   doc.setDrawColor(0, 0, 0);
   doc.setLineWidth(0.5);
-  doc.rect(margin, signatureY, signatureWidth, signatureHeight, 'S');
+  doc.roundedRect(margin, signatureY, signatureWidth, signatureHeight, 2, 2, 'S');
   
-  // Header row - "THE SELLER"
-  doc.setFillColor(248, 248, 248);
-  doc.rect(margin, signatureY, signatureWidth, 8, 'F');
-  doc.setDrawColor(0, 0, 0);
-  doc.line(margin, signatureY + 8, pageWidth - margin, signatureY + 8);
-  
+  // Header - "THE SELLER"
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(10);
   doc.setTextColor(0, 0, 0);
-  doc.text('THE SELLER', pageWidth / 2, signatureY + 5.5, { align: 'center' });
+  doc.text('THE SELLER', pageWidth / 2, signatureY + 6, { align: 'center' });
   
-  // Calculate column widths for table structure
-  const col1Width = signatureWidth * 0.15; // Name label (15%)
-  const col2Width = signatureWidth * 0.45; // Name value (45%)
-  const col3Width = signatureWidth * 0.15; // Signature label (15%)
-  const col4Width = signatureWidth * 0.25; // Signature value (25%)
-  
-  // Draw vertical lines for columns
-  doc.setDrawColor(0, 0, 0);
-  doc.line(margin + col1Width, signatureY + 8, margin + col1Width, signatureY + signatureHeight);
-  doc.line(margin + col1Width + col2Width, signatureY + 8, margin + col1Width + col2Width, signatureY + signatureHeight);
-  doc.line(margin + col1Width + col2Width + col3Width, signatureY + 8, margin + col1Width + col2Width + col3Width, signatureY + signatureHeight);
-  
-  // Row 1: Name and Signature
-  const row1Y = signatureY + 8;
-  const row1Height = 18;
-  doc.line(margin, row1Y + row1Height, pageWidth - margin, row1Y + row1Height);
-  
-  // Name label
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(9);
-  doc.text('Name:', margin + 2, row1Y + 6);
-  
-  // Name value with underline
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(9);
-  const nameX = margin + col1Width + 3;
-  doc.text('EL HEKMA Engineering Office', nameX, row1Y + 6);
+  // Line under header
   doc.setDrawColor(0, 0, 0);
   doc.setLineWidth(0.3);
-  doc.line(nameX, row1Y + 8, margin + col1Width + col2Width - 3, row1Y + 8);
+  doc.line(margin + 5, signatureY + 9, pageWidth - margin - 5, signatureY + 9);
   
-  // Signature label
+  // Row 1: Name (left) and Signature (right)
+  const contentStartY = signatureY + 15;
+  const leftSectionX = margin + 5;
+  const rightSectionX = pageWidth / 2 + 10;
+  
+  // Left section - Name
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(9);
-  doc.text('Signature:', margin + col1Width + col2Width + 2, row1Y + 6);
+  doc.text('Name:', leftSectionX, contentStartY);
+  
+  // Name value with underline
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(9);
+  const nameValueY = contentStartY + 5;
+  doc.text('EL HEKMA Engineering Office', leftSectionX, nameValueY);
+  doc.setDrawColor(0, 0, 0);
+  doc.setLineWidth(0.3);
+  const nameUnderlineWidth = (pageWidth / 2 + 5) - leftSectionX - 5;
+  doc.line(leftSectionX, nameValueY + 1, leftSectionX + nameUnderlineWidth, nameValueY + 1);
+  
+  // Right section - Signature
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(9);
+  doc.text('Signature:', rightSectionX, contentStartY);
   
   // Signature image
   try {
@@ -385,9 +374,8 @@ export async function generateInvoicePDFVector(data: VectorInvoiceData) {
     await new Promise((resolve) => {
       signatureReader.onload = function() {
         try {
-          const sigX = margin + col1Width + col2Width + col3Width + 5;
-          const sigY = row1Y + 2;
-          doc.addImage(signatureReader.result as string, 'PNG', sigX, sigY, 40, 12);
+          // Add signature image
+          doc.addImage(signatureReader.result as string, 'PNG', rightSectionX, contentStartY + 1, 45, 11);
         } catch (error) {
           console.warn('Failed to add signature to PDF:', error);
         }
@@ -400,23 +388,22 @@ export async function generateInvoicePDFVector(data: VectorInvoiceData) {
   }
   
   // Row 2: Date
-  const row2Y = row1Y + row1Height;
+  const dateRowY = contentStartY + 18;
   
   // Date label
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(9);
-  doc.text('Date:', margin + 2, row2Y + 6);
+  doc.text('Date:', leftSectionX, dateRowY);
   
   // Date value with automatic date and underline
   const signatureToday = new Date();
   const signatureDate = signatureToday.toLocaleDateString('en-GB');
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(9);
-  const dateX = margin + col1Width + 3;
-  doc.text(signatureDate, dateX, row2Y + 6);
+  doc.text(signatureDate, leftSectionX + 15, dateRowY);
   doc.setDrawColor(0, 0, 0);
   doc.setLineWidth(0.3);
-  doc.line(dateX, row2Y + 8, margin + col1Width + col2Width - 3, row2Y + 8);
+  doc.line(leftSectionX + 15, dateRowY + 1, leftSectionX + 50, dateRowY + 1);
 
   // FOOTER SECTION - Professional footer layout with yellow bar
   const footerY = signatureY + signatureHeight + 15;
