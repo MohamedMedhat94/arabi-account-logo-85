@@ -319,7 +319,7 @@ export async function generateInvoicePDFVector(data: VectorInvoiceData) {
   // SIGNATURE SECTION - Compact and organized seller block
   const signatureY = totalsY + 45;
   const signatureWidth = pageWidth - 2 * margin;
-  const signatureHeight = 28; // Further reduced for compactness
+  const signatureHeight = 35; // Increased for better spacing with signature image
   
   // Signature section with clean border
   doc.setFillColor(248, 248, 248);
@@ -350,11 +350,11 @@ export async function generateInvoicePDFVector(data: VectorInvoiceData) {
   doc.text('Name:', leftColX, fieldStartY);
   doc.setDrawColor(120, 120, 120);
   doc.setLineWidth(0.1);
-  doc.line(leftColX + 20, fieldStartY - 1, leftColX + 85, fieldStartY - 1);
+  doc.line(leftColX + 12, fieldStartY + 1, leftColX + 85, fieldStartY + 1);
   
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(6);
-  doc.text('EL HEKMA Engineering Office', leftColX, fieldStartY + 6);
+  doc.setFontSize(8);
+  doc.text('EL HEKMA Engineering Office', leftColX + 12, fieldStartY + 6);
   
   // Right column - Signature with image
   doc.setFont('helvetica', 'normal');
@@ -371,8 +371,8 @@ export async function generateInvoicePDFVector(data: VectorInvoiceData) {
     await new Promise((resolve) => {
       signatureReader.onload = function() {
         try {
-          // Add signature image - 45mm width (approximately 180px equivalent)
-          doc.addImage(signatureReader.result as string, 'PNG', rightColX + 25, fieldStartY - 2, 45, 12);
+          // Add signature image next to "Signature:" label - properly sized and positioned
+          doc.addImage(signatureReader.result as string, 'PNG', rightColX + 22, fieldStartY - 4, 50, 13);
         } catch (error) {
           console.warn('Failed to add signature to PDF:', error);
         }
@@ -382,13 +382,15 @@ export async function generateInvoicePDFVector(data: VectorInvoiceData) {
     });
   } catch (error) {
     console.warn('Failed to load signature image:', error);
-    // Fallback - draw signature line if image fails
-    doc.setDrawColor(120, 120, 120);
-    doc.line(rightColX + 25, fieldStartY - 1, rightColX + 80, fieldStartY - 1);
   }
   
-  doc.text('Date:', rightColX, fieldStartY + 8);
-  doc.line(rightColX + 15, fieldStartY + 7, rightColX + 65, fieldStartY + 7);
+  // Date field below signature
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(7);
+  doc.text('Date:', rightColX, fieldStartY + 12);
+  doc.setDrawColor(120, 120, 120);
+  doc.setLineWidth(0.1);
+  doc.line(rightColX + 12, fieldStartY + 13, rightColX + 70, fieldStartY + 13);
 
   // FOOTER SECTION - Professional footer layout with yellow bar
   const footerY = signatureY + signatureHeight + 15;
