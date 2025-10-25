@@ -211,7 +211,11 @@ export async function generateInvoicePDFVector(data: VectorInvoiceData) {
   // Right column - Invoice details
   const rightCol = pageWidth - margin - 60;
   doc.text('Date:', rightCol, y + 16);
-  doc.text(invoiceData.date || new Date().toLocaleDateString(), rightCol + 15, y + 16);
+  
+  // Automatic date in DD/MM/YYYY format
+  const today = new Date();
+  const invoice_date = today.toLocaleDateString('en-GB');
+  doc.text(invoiceData.date || invoice_date, rightCol + 15, y + 16);
   
   doc.text('Invoice No.:', rightCol, y + 21);
   doc.text(invoiceData.piNo || 'N/A', rightCol + 25, y + 21);
@@ -352,12 +356,36 @@ export async function generateInvoicePDFVector(data: VectorInvoiceData) {
   doc.setFontSize(6);
   doc.text('EL HEKMA Engineering Office', leftColX, fieldStartY + 6);
   
-  // Right column - Signature and Date  
+  // Right column - Signature with image
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(7);
   doc.text('Signature:', rightColX, fieldStartY);
-  doc.setDrawColor(120, 120, 120);
-  doc.line(rightColX + 25, fieldStartY - 1, rightColX + 80, fieldStartY - 1);
+  
+  // Load and add signature image
+  try {
+    const signaturePath = '/lovable-uploads/signature-dr-baker.png';
+    const signatureResponse = await fetch(signaturePath);
+    const signatureBlob = await signatureResponse.blob();
+    const signatureReader = new FileReader();
+    
+    await new Promise((resolve) => {
+      signatureReader.onload = function() {
+        try {
+          // Add signature image - 45mm width (approximately 180px equivalent)
+          doc.addImage(signatureReader.result as string, 'PNG', rightColX + 25, fieldStartY - 2, 45, 12);
+        } catch (error) {
+          console.warn('Failed to add signature to PDF:', error);
+        }
+        resolve(null);
+      };
+      signatureReader.readAsDataURL(signatureBlob);
+    });
+  } catch (error) {
+    console.warn('Failed to load signature image:', error);
+    // Fallback - draw signature line if image fails
+    doc.setDrawColor(120, 120, 120);
+    doc.line(rightColX + 25, fieldStartY - 1, rightColX + 80, fieldStartY - 1);
+  }
   
   doc.text('Date:', rightColX, fieldStartY + 8);
   doc.line(rightColX + 15, fieldStartY + 7, rightColX + 65, fieldStartY + 7);
